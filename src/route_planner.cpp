@@ -1,5 +1,6 @@
 #include "route_planner.h"
 #include <algorithm>
+using std::sort;
 
 RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, float end_x, float end_y): m_Model(model) {
     // Convert inputs to percentage:
@@ -54,9 +55,20 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Return the pointer.
 
 RouteModel::Node *RoutePlanner::NextNode() {
-
+    sort(open_list.begin(), open_list.end(), Compare);
+    RouteModel::Node* ptr_backlist = open_list.back();
+    open_list.pop_back();
+    return ptr_backlist;
 }
 
+/**
+ * Helper Compare function for sorting open_list
+ */
+bool Compare(const RouteModel::Node* a, const RouteModel::Node* b) {
+  float f1 = a->g_value + a->h_value; // f1 = g1 + h1
+  float f2 = b->g_value + b->h_value; // f2 = g2 + h2
+  return f1 > f2; 
+}
 
 // TODO 6: Complete the ConstructFinalPath method to return the final path found from your A* search.
 // Tips:
