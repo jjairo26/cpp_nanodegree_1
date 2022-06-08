@@ -10,6 +10,27 @@
 
 using namespace std::experimental;
 
+// Helper Function for Input Validation
+void UserInputValidation(float &coordinate){
+    bool valid_input; 
+    do {
+        if (!(std::cin >> coordinate)){
+            std::cout << "Unvalid input. Please insert a valid coordinate: ";
+            valid_input = false;
+            std::cin.clear();   
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        else{
+            valid_input = ((coordinate >= 0) && (coordinate <= 100));
+            if (!valid_input){
+            std::cout << "Only 0 to 100 accepted. Please insert a valid value: ";
+            }
+        }
+    }
+    while(!(valid_input));
+}
+
+
 static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
 {   
     std::ifstream is{path, std::ios::binary | std::ios::ate};
@@ -59,14 +80,14 @@ int main(int argc, const char **argv)
     float start_y;
     float end_x;
     float end_y;
-    std::cout << "Please insert a value for the x-coordinate of the start node: ";
-    std::cin >> start_x;
-    std::cout << "Please insert a value for the y-coordinate of the start node: ";
-    std::cin >> start_y;
-    std::cout << "Please insert a value for the x-coordinate of the end node: ";
-    std::cin >> end_x;
-    std::cout << "Please insert a value for the y-coordinate of the end node: ";
-    std::cin >> end_y;
+    std::cout << "Please insert a value for the x-coordinate of the start node (0-100): ";
+    UserInputValidation(start_x);
+    std::cout << "Please insert a value for the y-coordinate of the start node (0-100): ";
+    UserInputValidation(start_y);
+    std::cout << "Please insert a value for the x-coordinate of the end node (0-100): ";
+    UserInputValidation(end_x);
+    std::cout << "Please insert a value for the y-coordinate of the end node (0-100): ";
+    UserInputValidation(end_y);
     std::cout << "Using start node: " << "(" << start_x << ", " << start_y << ")" << "\n";
     std::cout << "Using end node: " << "(" << end_x << ", " << end_y << ")" << "\n";
     
