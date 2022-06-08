@@ -98,7 +98,6 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 
 }
 
-
 // TODO 7: Write the A* Search algorithm here.
 // Tips:
 // - Use the AddNeighbors method to add all of the neighbors of the current node to the open_list.
@@ -113,14 +112,9 @@ void RoutePlanner::AStarSearch() {
     current_node = start_node;
     start_node->visited = true;
 
-    if (start_node == end_node){
-        m_Model.path  = ConstructFinalPath(end_node);   
-    }
-    else{
-        while(current_node != end_node){
-            AddNeighbors(current_node);
-            current_node = NextNode();
+    while(current_node != end_node){
+        AddNeighbors(current_node);
+        current_node = NextNode();
         }
      m_Model.path  = ConstructFinalPath(current_node);
-    }
 }
